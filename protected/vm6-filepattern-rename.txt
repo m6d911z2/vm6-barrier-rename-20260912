@@ -1,1 +1,2 @@
 VM6 file-pattern rename baseline protected content
+VM6 H0 protected modification marker
