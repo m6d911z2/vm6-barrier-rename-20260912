@@ -1,0 +1,3 @@
+ordinary-line
+VM6_DANGEROUS_LINE_SENTINEL_20260913
+end-line
