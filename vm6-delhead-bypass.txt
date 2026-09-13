@@ -1,0 +1,1 @@
+VM6 protected delete test vm6-delhead-bypass
