@@ -20,4 +20,4 @@ scopes:
     files:
       critical:
         include:
-          - 'sensitive/**'
+          - 'docs/**'
