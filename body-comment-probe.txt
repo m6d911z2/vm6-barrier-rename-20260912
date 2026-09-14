@@ -1,0 +1,1 @@
+VM6 body comment parser differential fixture
