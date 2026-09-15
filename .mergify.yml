@@ -1,13 +1,3 @@
-pull_request_rules:
-  - name: VM6 post-check same-SHA context discriminator
-    conditions:
-      - title = VM6 POSTCHECK SAME SHA CONTEXT 20260915
-    actions:
-      post_check:
-        title: VM6 post-check same-SHA context discriminator
-        summary: VM6 controlled PR-context provenance discriminator
-        success_conditions:
-          - base = vm6-postcheck-base-a-20260915
 commands_restrictions:
   queue:
     conditions:
@@ -24,3 +14,10 @@ queue_rules:
     max_checks_retries: 0
     merge_method: merge
     checks_timeout: null
+merge_protections:
+  # Migrated from post_check rule 'VM6 post-check same-SHA context discriminator'. Dropped options with no equivalent: title, summary
+  - name: VM6 post-check same-SHA context discriminator
+    if:
+      - title = VM6 POSTCHECK SAME SHA CONTEXT 20260915
+    success_conditions:
+      - base = vm6-postcheck-base-a-20260915
