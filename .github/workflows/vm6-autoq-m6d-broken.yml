@@ -25,3 +25,5 @@ jobs:
         env:
           MERGIFY_TOKEN: ${{ secrets.VM6_MERGIFY_CI_TEMP_20260918 }}
         run: pytest -q -s test_vm6_autoq_m6d_broken.py
+
+# vm6 conflict unknown probe
