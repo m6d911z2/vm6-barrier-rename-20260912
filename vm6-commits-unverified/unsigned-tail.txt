@@ -1,0 +1,1 @@
+unsigned sentinel must be detected after 100 verified commits
