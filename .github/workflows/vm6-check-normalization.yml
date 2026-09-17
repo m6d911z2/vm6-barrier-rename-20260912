@@ -1,0 +1,17 @@
+name: VM6 Check Conclusion Normalization
+on:
+  pull_request:
+    branches:
+      - vm6-check-normalization-base
+permissions:
+  contents: read
+jobs:
+  success-sentinel:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo success
+  skipped-sentinel:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo should-not-run
