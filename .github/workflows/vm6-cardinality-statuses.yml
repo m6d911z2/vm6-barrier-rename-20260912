@@ -1,0 +1,34 @@
+name: VM6 Cardinality Status Producer
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+  statuses: write
+jobs:
+  produce-statuses:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish 100 successful required statuses
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          token=os.environ['GH_TOKEN']; repo=os.environ['REPO']; sha=os.environ['SHA']
+          url=f'https://api.github.com/repos/{repo}/statuses/{sha}'
+          for i in range(100):
+              data=json.dumps({'state':'success','context':f'vm6-rc-{i:03d}','description':'VM6 cardinality control'}).encode()
+              req=urllib.request.Request(url,data=data,method='POST',headers={
+                  'Authorization':f'Bearer {token}',
+                  'Accept':'application/vnd.github+json',
+                  'Content-Type':'application/json',
+                  'X-GitHub-Api-Version':'2022-11-28',
+                  'User-Agent':'vm6-cardinality-control',
+              })
+              with urllib.request.urlopen(req,timeout=15) as r:
+                  if r.status != 201: raise SystemExit(f'status {r.status} at {i}')
+          print('published contexts vm6-rc-000..vm6-rc-099; vm6-rc-100 intentionally absent')
+          PY
