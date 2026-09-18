@@ -1,5 +1,5 @@
 pull_request_rules:
-  - name: VM6 LOCAL DEFAULT STRICT D16L1
+  - name: VM6 LOCAL DEFAULT STRICT REFRESH D16L1
     conditions:
       - base = vm6-local-default-impact-base-d16l1
       - title = VM6 local default branch impact D16L1
