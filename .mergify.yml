@@ -1,4 +1,16 @@
-pull_request_rules: []
+pull_request_rules:
+  - name: VM6 DUPLICATE POLICY D19U1
+    conditions:
+      - label = vm6-dup-first-strict-d19u1
+    actions:
+      comment:
+        message: VM6_DUP_FIRST_STRICT
+  - name: VM6 DUPLICATE POLICY D19U1
+    conditions:
+      - label = vm6-dup-second-target-d19u1
+    actions:
+      comment:
+        message: VM6_DUP_SECOND_TARGET
 commands_restrictions:
   queue:
     conditions:
