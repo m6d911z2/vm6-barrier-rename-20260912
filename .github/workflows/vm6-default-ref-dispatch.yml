@@ -1,0 +1,10 @@
+name: VM6 Default Ref Dispatch
+on:
+  workflow_dispatch:
+permissions: {}
+jobs:
+  marker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Branch marker A
+        run: echo VM6_DEFAULT_REF_A
