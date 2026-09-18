@@ -1,4 +1,13 @@
-pull_request_rules: []
+pull_request_rules:
+  - name: VM6 GHA default ref G15W1
+    conditions:
+      - title = VM6 github actions default ref G15W1
+      - label = vm6-gha-ref-go-g15w1
+    actions:
+      github_actions:
+        workflow:
+          dispatch:
+            - workflow: vm6-default-ref-dispatch.yml
 commands_restrictions:
   queue:
     conditions:
