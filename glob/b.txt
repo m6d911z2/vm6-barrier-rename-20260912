@@ -1,0 +1,1 @@
+VM6 glob grammar glob/b.txt
