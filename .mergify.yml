@@ -1,4 +1,21 @@
-pull_request_rules: []
+pull_request_rules:
+  - name: VM6 laundering A from B comment L12P1
+    conditions:
+      - author = livastic-vm6-primary-20260911
+      - sender = livastic-vm6-primary-20260911
+      - -label = vm6-launder-marker-l12p1
+    actions:
+      label:
+        add:
+          - vm6-launder-marker-l12p1
+  - name: VM6 laundering B admin sentinel L12P1
+    conditions:
+      - author = livastic-vm6-primary-20260911
+      - label = vm6-launder-marker-l12p1
+      - sender-permission >= admin
+    actions:
+      comment:
+        message: VM6_LAUNDER_ADMIN_SENTINEL_L12P1
 commands_restrictions:
   queue:
     conditions:
