@@ -5,7 +5,6 @@ pull_request_rules:
     actions:
       rebase:
         bot_account: livastic-vm6-primary-rn260917
-        autosquash: true
 commands_restrictions:
   queue:
     conditions:
