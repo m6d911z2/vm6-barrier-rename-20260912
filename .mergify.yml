@@ -2,21 +2,11 @@ pull_request_rules: []
 commands_restrictions:
   queue:
     conditions:
-      - title ~= ^(VM6 author-run same-repo read-only boundary|VM6_DIRECT_DEQUEUE_WAIT_20260924)$
+      - title = VM6 author-run same-repo read-only boundary
 merge_queue:
   mode: serial
   max_parallel_checks: 1
 queue_rules:
-  - name: vm6-direct-dequeue-wait-20260924
-    batch_size: 2
-    batch_max_wait_time: 10 minutes
-    queue_conditions:
-      - title = VM6_DIRECT_DEQUEUE_WAIT_20260924
-    merge_conditions:
-      - label = vm6-never-merge-20260923
-    max_checks_retries: 0
-    merge_method: merge
-    checks_timeout: null
   - name: vm6-postdowngrade-stack-20260923
     batch_size: 1
     queue_conditions:
