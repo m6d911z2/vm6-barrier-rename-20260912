@@ -1,4 +1,13 @@
-pull_request_rules: []
+pull_request_rules:
+  - name: VM6 added-lines large-patch protected merge impact
+    conditions:
+      - title = VM6_ADDED_LINES_HUGE_20260927
+      - author = livastic-vm6-primary-20260911
+      - -added-lines ~= VM6_FORBIDDEN_ADDED_LINE_20260927
+    actions:
+      merge:
+        method: merge
+
 commands_restrictions:
   queue:
     conditions:
