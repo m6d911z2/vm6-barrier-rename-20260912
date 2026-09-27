@@ -1,0 +1,16 @@
+name: VM6 Qualified Check Fork Gate
+
+on:
+  push:
+    branches:
+      - vm6-qualified-check-fork-20260927
+
+jobs:
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fork-repository gate
+        run: |
+          echo "controlled fork-repository gate success"
+          exit 0
