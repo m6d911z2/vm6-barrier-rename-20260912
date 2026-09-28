@@ -1,2 +1,3 @@
 VM6 fast-forward in-place discriminator v2 20260928
 VM6 trigger quick check after setup 20260928
+VM6 check baseline B0 298d8a7c 20260928
