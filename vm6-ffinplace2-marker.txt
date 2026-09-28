@@ -1,1 +1,2 @@
 VM6 fast-forward in-place discriminator v2 20260928
+VM6 trigger quick check after setup 20260928
