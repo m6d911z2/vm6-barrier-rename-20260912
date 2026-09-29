@@ -1,0 +1,92 @@
+name: VM6 Playwright Suite-Loss Collision
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  fetch-production-quarantine:
+    name: fetch-production-quarantine
+    if: github.event.pull_request.title == 'VM6_PLAYWRIGHT_SUITELOSS_PROD_20260929'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch exact production quarantine identity
+        env:
+          MERGIFY_OWNER_GITHUB_TOKEN: ${{ secrets.MERGIFY_OWNER_GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(curl -fsSL -H "Authorization: Bearer $MERGIFY_OWNER_GITHUB_TOKEN" 'https://api.mergify.com/v1/ci/m6d911z2/repositories/vm6-barrier-rename-20260912/quarantines')"
+          list="$(printf '%s' "$response" | jq -c '[.quarantined_tests[] | select(.test_name == "tests/vm6-suite-loss.spec.js > same") | .test_name] | unique')"
+          test "$list" = '["tests/vm6-suite-loss.spec.js > same"]'
+          printf '%s\n' "$list" > quarantine-list.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vm6-suite-loss-quarantine-list
+          path: quarantine-list.json
+          retention-days: 1
+
+  vm6-playwright-control:
+    name: vm6-playwright-control
+    if: github.event.pull_request.title == 'VM6_PLAYWRIGHT_SUITELOSS_PROD_20260929'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-audit --no-fund
+      - name: Fetch only attacker test file
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tests
+          gh api "repos/$HEAD_REPO/contents/tests/vm6-suite-loss.spec.js?ref=$HEAD_SHA" --jq '.content' | base64 -d > tests/vm6-suite-loss.spec.js
+      - name: Plain control without quarantine state
+        run: npx playwright test -c playwright.control.config.mjs
+
+  vm6-playwright-suite-loss:
+    name: vm6-playwright-suite-loss
+    needs: fetch-production-quarantine
+    if: github.event.pull_request.title == 'VM6_PLAYWRIGHT_SUITELOSS_PROD_20260929'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          name: vm6-suite-loss-quarantine-list
+          path: .
+      - name: Fetch only attacker test file
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tests
+          gh api "repos/$HEAD_REPO/contents/tests/vm6-suite-loss.spec.js?ref=$HEAD_SHA" --jq '.content' | base64 -d > tests/vm6-suite-loss.spec.js
+      - name: Build tokenless worker state from trusted production result
+        shell: bash
+        run: |
+          set -euo pipefail
+          q="$(cat quarantine-list.json)"
+          jq -n --arg root "$GITHUB_WORKSPACE" --argjson q "$q"             '{version:1,testRunId:"vm6-suite-loss-prod-20260929",createdAt:"2026-09-29T04:30:00.000Z",rootDir:$root,quarantinedTests:$q}' > vm6-state.json
+      - name: Current Mergify Playwright 0.4.1 treatment
+        env:
+          MERGIFY_STATE_FILE: ${{ github.workspace }}/vm6-state.json
+        run: npx playwright test -c playwright.mergify.config.mjs
