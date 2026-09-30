@@ -1,0 +1,1 @@
+VM6 fork sender-permission canary 2026-10-01
