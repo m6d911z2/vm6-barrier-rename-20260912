@@ -1,0 +1,1 @@
+vm6 shared-head victim canary 2026-10-01
