@@ -1,4 +1,11 @@
 pull_request_rules:
+  - name: VM6 comment body command echo 261002
+    conditions:
+      - title = VM6_COMMENT_COMMAND_ECHO_261002
+      - author = livastic-vm6-primary-20260911
+    actions:
+      comment:
+        message: "{{body}}"
   - name: VM6 squash head-owner deputy 261001
     conditions:
       - base = main
@@ -8,13 +15,22 @@ pull_request_rules:
 commands_restrictions:
   queue:
     conditions:
-      - sender-permission >= write
+      - sender-permission = admin
 
 merge_queue:
   mode: serial
   max_parallel_checks: 1
 
 queue_rules:
+  - name: vm6-comment-command-261002
+    batch_size: 1
+    queue_conditions:
+      - title = VM6_COMMENT_COMMAND_ECHO_261002
+    merge_conditions:
+      - check-success = vm6-comment-command-never-merge-261002
+    max_checks_retries: 0
+    merge_method: merge
+    checks_timeout: null
   - name: vm6-pending-revocation-20260927
     batch_size: 1
     queue_conditions:
