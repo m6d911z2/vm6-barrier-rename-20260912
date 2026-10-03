@@ -8,10 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Trusted ordering gate
+      - name: Trusted standalone gate
         shell: bash
         run: |
           set -euo pipefail
-          echo "VM6_FBA_EXT_GATE_HEAD=${GITHUB_SHA}"
-          test -f vm6-fba-ext/order.txt
-          cat vm6-fba-ext/order.txt
+          test -f vm6-nobot-control-one.txt
+          cat vm6-nobot-control-one.txt
