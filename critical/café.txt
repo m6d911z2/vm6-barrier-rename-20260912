@@ -1,1 +1,1 @@
-VM6 Unicode treatment should be critical in engine but missed by released CLI
+VM6 external readonly Unicode treatment 261006
