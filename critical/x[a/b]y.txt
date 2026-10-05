@@ -1,1 +1,2 @@
 VM6 class-separator treatment 261006
+external-readonly-classsep-261006
