@@ -1,1 +1,1 @@
-{"name":"vm6-git-source","private":true,"dependencies":{"is-number":"7.0.0"}}
+{"name":"vm6-git-source","private":true,"dependencies":{"is-number":"7.0.0","left-pad":"1.3.0"}}
