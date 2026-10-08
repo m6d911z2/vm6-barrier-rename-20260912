@@ -1,1 +1,0 @@
-VM6 controlled head-config provenance canary 2026-10-08
