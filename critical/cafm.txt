@@ -1,0 +1,1 @@
+VM6 R68 EXISTING Root8 NORMAL-ROUTE comparison inert marker; no secrets, no deployment.
