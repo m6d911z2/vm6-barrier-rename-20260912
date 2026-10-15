@@ -1,0 +1,12 @@
+pull_request_rules:
+  - name: VM6 dual-path untrusted github mergify 261015
+    conditions:
+      - base = main
+      - title = VM6_DUAL_CONFIG_PATH_261015
+      - author = livastic-vm6-primary-20260911
+    actions:
+      comment:
+        message: VM6_DUAL_PATH_COMMENT_FIRED_261015
+      label:
+        add:
+          - vm6-dual-path-261015
